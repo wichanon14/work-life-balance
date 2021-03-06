@@ -1,7 +1,9 @@
 import axios from 'axios';
 
 const initialState = {
-    taskList: []
+    taskList: [],
+    prioritySort: false,
+    showAllStatus: false
 }
 
 const isTaskExist = (taskList,task)=>{
@@ -81,6 +83,16 @@ const taskReducer = (state = initialState, action)=>{
             return {
                 ...state,
                 taskList:action.payload
+            }
+        case 'SORT_BY_PRIORIY':
+            return {
+                ...state,
+                prioritySort:action.payload
+            }
+        case 'SHOW_ALL_STATUS':
+            return {
+                ...state,
+                showAllStatus:action.payload
             }
         default:
           return state

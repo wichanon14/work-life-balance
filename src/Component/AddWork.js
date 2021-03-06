@@ -66,6 +66,11 @@ function AddWork(){
                 <Col xs={9}></Col>
                 <Button onClick={()=>submitTask()}>Create Task</Button>
             </Row>
+            <Row className={'border '}>
+                <Col>
+                    
+                </Col>
+            </Row>
         </div>
     )
 }

@@ -35,6 +35,20 @@ export const setAllGroup = (data)=>{
     }
 }
 
+export const sortTaskByPriority = (data)=>{
+    return {
+        type: 'SORT_BY_PRIORIY',
+        payload: data
+    }
+}
+
+export const showAllStatusTask = (data)=>{
+    return {
+        type: 'SHOW_ALL_STATUS',
+        payload: data
+    }
+}
+
 export const fetchGroup = ()=>{
     return (dispatch,state)=>{
         axios.get('http://localhost/work-life-balance-api/?action=getGroup')
