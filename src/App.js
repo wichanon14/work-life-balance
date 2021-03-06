@@ -1,24 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
+import { Row,Container,Col } from 'react-bootstrap';
+import AddWork from './Component/AddWork';
+import WorkList from './Component/WorkList';
 
 function App() {
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <Container className={'d-flex flex-column'} style={{flex:1,minHeight:'80vh',marginTop:'5%'}} >
+          <Row className={'TaskCreate'} style={{marginBottom:'5%'}}>
+            <Col xs={6}>
+              <AddWork />
+            </Col>
+            <Col xs={6}>
+              <WorkList />
+            </Col>
+          </Row>
+      </Container>
   );
 }
 
