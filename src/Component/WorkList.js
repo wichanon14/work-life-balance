@@ -50,7 +50,7 @@ function WorkList(){
             <Row>
                 <GroupComponent />
             </Row>
-            <TaskBox />
+                <TaskBox />
             <Row>
                 <Col xs={8}></Col>
                 <Col>        

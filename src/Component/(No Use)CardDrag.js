@@ -1,17 +1,17 @@
 import { ListGroup,Row,Col,Badge } from 'react-bootstrap';
 import { useSelector,useDispatch } from 'react-redux';
 import React,{ useEffect, useState } from 'react';
-import { fetchTask,updateTask } from '../action';
+import { fetchTask } from '../action';
 import { Animated } from "react-animated-css";
 import { DragDropContext,Draggable,Droppable } from 'react-beautiful-dnd';
 
-function TaskBox(){
+
+function CardDrag(){
 
     const [tasks,setTasks] = useState([])
     const [shouldSort,setShouldSort]=useState(false)
     const [showAll,setShowAll] = useState(false)
     const [groupSelect,setGroupSelect] = useState({})
-    const [taskListOrder,setTaskListOrder] = useState(tasks);
     const tasksRetrieve = useSelector(state=>state.tasks)
     const groupList = useSelector(state=>state.groups)
     const dispatch = useDispatch();
@@ -26,7 +26,6 @@ function TaskBox(){
 
     useEffect(()=>{
         setTasks(tasksRetrieve.taskList)
-        setTaskListOrder(tasksRetrieve.taskList);
     },[tasksRetrieve])
 
     useEffect(()=>{
@@ -47,13 +46,13 @@ function TaskBox(){
 
     const completeTask = (task)=>{
         task.isComplete = !task.isComplete;
-        dispatch(updateTask(task));
+        //dispatch(updateTask(task));
         console.log('task >> ',task);
         setTimeout(() => {
             dispatch(fetchTask(dispatch,{
                 id:task.group
             }))
-        }, 500);
+        }, 20);
     }
 
     const getPiorityDisplay = (priority)=>{
@@ -78,18 +77,8 @@ function TaskBox(){
         }
     }
 
-    function handleOnDragEnd(result) {
-        console.log('result >> ',result);
-        if (!result.destination) return;
-        const items = Array.from(taskListOrder);
-        const [reorderedItem] = items.splice(result.source.index, 1);
-        items.splice(result.destination.index, 0, reorderedItem);
-
-        setTaskListOrder(items);
-    }
-
     return (
-        <DragDropContext onDragEnd={handleOnDragEnd}>
+        <DragDropContext >
             <div style={{minHeight:'50vh',maxHeight:'50vh',overflowY:'auto',overflowX:'hidden'}} className={'d-flex flex-column-reverse border rounded scrollBar'}>
             <Droppable droppableId="taskLists">
                 {
@@ -104,12 +93,12 @@ function TaskBox(){
                         <ListGroup style={{'display':(shouldSort)?'none':'flex'}} className="taskLists"
                             {...provided.droppableProps} ref={provided.innerRef}>
                             {
-                                taskListOrder.map((task,i)=>((!task.isComplete||showAll)&& task.group === groupSelect.id)?
+                                tasks.map((task,i)=>((!task.isComplete||showAll)&& task.group === groupSelect.id)?
                                 (
                                     <Draggable key={task.id} draggableId={task.id+""} index={i}>
                                         {
                                             (provided)=>(
-                                                <Animated animationIn={(i === 1)?"bounceInLeft":''} 
+                                                <Animated animationIn={(tasks.length-1 === i)?"bounceInLeft":''} 
                                                     animationInDuration={500} isVisible={true}>
                                                     <ListGroup.Item className={'rounded'} onClick={()=>completeTask(task)} 
                                                         style={{'opacity':(task.isComplete)?0.5:1}}
@@ -138,4 +127,4 @@ function TaskBox(){
 
 }
 
-export default TaskBox;
+export default CardDrag;
