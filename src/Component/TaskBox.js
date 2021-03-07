@@ -31,8 +31,7 @@ function TaskBox(){
         setShouldSort(tasksRetrieve.prioritySort)
         if(tasksRetrieve.prioritySort){
             setTasks(tasksRetrieve.taskList.sort(compare));
-        }
-        
+        }        
     },[tasksRetrieve.prioritySort,tasksRetrieve.taskList])
 
     useEffect(()=>{
@@ -94,7 +93,7 @@ function TaskBox(){
                             (
                                 <Animated key={task.id} animationIn={(tasks.length-1 === i)?"bounceInLeft":''} 
                                     animationInDuration={500} isVisible={true} >
-                                    <ListGroup.Item eventKey={task.id+i}  className={'rounded'} onClick={()=>completeTask(task)} 
+                                    <ListGroup.Item className={'rounded'} onClick={()=>completeTask(task)} 
                                         style={{'opacity':(task.isComplete)?0.5:1}}>
                                         <input type="checkbox" checked={task.isComplete} onChange={()=>{''}}
                                             style={{'marginRight':'1vw','transform':'scale(1.2)'}}/>

@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { createTask,fetchTask,selectGroupGlobal } from '../action';
 import { searchPriority } from '../master';
 import { useSelector } from 'react-redux';
+import DailyList from './DailyList';
 
 function AddWork(){
 
@@ -66,11 +67,7 @@ function AddWork(){
                 <Col xs={9}></Col>
                 <Button onClick={()=>submitTask()}>Create Task</Button>
             </Row>
-            <Row className={'border '}>
-                <Col>
-                    
-                </Col>
-            </Row>
+            <DailyList />
         </div>
     )
 }

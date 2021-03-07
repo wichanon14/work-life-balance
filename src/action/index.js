@@ -49,6 +49,13 @@ export const showAllStatusTask = (data)=>{
     }
 }
 
+export const createDailyList = (data) =>{
+    return {
+        type: 'CREATE_DAILY_LIST',
+        payload: data
+    }
+}
+
 export const fetchGroup = ()=>{
     return (dispatch,state)=>{
         axios.get('http://localhost/work-life-balance-api/?action=getGroup')

@@ -5,7 +5,7 @@ import WorkList from './Component/WorkList';
 function App() {
   
   return (
-      <Container className={'d-flex flex-column'} style={{flex:1,minHeight:'80vh',marginTop:'5%'}} >
+      <Container className={'d-flex flex-column'} style={{flex:1,minHeight:'80vh',marginTop:'3%'}} >
           <Row className={'TaskCreate'} style={{marginBottom:'5%'}}>
             <Col xs={6}>
               <AddWork />
