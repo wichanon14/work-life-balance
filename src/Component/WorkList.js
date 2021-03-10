@@ -1,7 +1,7 @@
 import { useState,useEffect } from 'react';
 import { Row,Col,Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
-import { fetchTask,sortTaskByPriority,showAllStatusTask } from '../action';
+import { fetchTask,sortTaskByPriority,showAllStatusTask,fetchDailyTask } from '../action';
 import { useDispatch } from 'react-redux';
 import GroupComponent from './GroupComponent';
 import TaskBox from './TaskBox';
@@ -37,6 +37,7 @@ function WorkList(){
                 <Col>
                     <Button onClick={()=>{
                         dispatch(fetchTask(dispatch,groupSelect))
+                        dispatch(fetchDailyTask(dispatch,'2020-02-01'))
                     }} >
                         Reload
                     </Button>

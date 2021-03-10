@@ -49,9 +49,23 @@ export const showAllStatusTask = (data)=>{
     }
 }
 
-export const createDailyList = (data) =>{
+export const setDailyList = (data) =>{
     return {
-        type: 'CREATE_DAILY_LIST',
+        type: 'SET_DAILY_LIST',
+        payload: data
+    }
+}
+
+export const triggerDailyDropArea = (data) =>{
+    return {
+        type: 'TRIGGER_DAILY_DROP_AREA',
+        payload: data
+    }
+}
+
+export const triggerTaskDropArea = (data) =>{
+    return {
+        type: 'TRIGGER_TASK_DROP_AREA',
         payload: data
     }
 }
@@ -80,6 +94,16 @@ export const fetchTask = (dispatch,group,user=1)=>{
         axios.get('http://localhost/work-life-balance-api/?action=getTask&group='+group.id+'&user='+user)
         .then(response=>{
             dispatch({ type: "SET_TASK_LIST", payload: response.data })
+        })
+    }
+}
+
+export const fetchDailyTask = (dispatch,date)=>{
+    dispatch({ type: "SET_DAILY_LIST", payload: [] })
+    return (dispatch)=>{
+        axios.get('http://localhost/work-life-balance-api/?action=getDaily&date='+date)
+        .then(response=>{
+            dispatch({ type: "SET_DAILY_LIST", payload: response.data })
         })
     }
 }

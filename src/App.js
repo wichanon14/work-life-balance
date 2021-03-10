@@ -3,38 +3,99 @@ import { useEffect,useState } from 'react';
 import AddWork from './Component/AddWork';
 import WorkList from './Component/WorkList';
 import { DragDropContext } from 'react-beautiful-dnd';
-import { useSelector } from 'react-redux';
+import { useSelector,useDispatch } from 'react-redux';
+import { triggerDailyDropArea, updateTask, fetchDailyTask, triggerTaskDropArea,fetchTask } from './action';
+import { getCurrentDate } from './master';
 
 function App() {
   
+  const [dailyList,setDailyList] = useState([]);
   const [tasks,setTasks] = useState([])
   const [taskListOrder,setTaskListOrder] = useState(tasks);
+  const [dragflag,setDragFlag] = useState(false);
   const tasksRetrieve = useSelector(state=>state.tasks)
+  const dailyStore = useSelector(state=>state.dailyList);
+  const [dailyListOrder,setDailyListOrder] = useState(dailyList);
+  const dispatch = useDispatch();
 
   useEffect(()=>{
     setTasks(tasksRetrieve.taskList)
     setTaskListOrder(tasksRetrieve.taskList);
   },[tasksRetrieve])
 
+  useEffect(()=>{
+        
+    if(dailyStore){
+        setDailyList(dailyStore.dailyList);
+        setDailyListOrder(dailyStore.dailyList);
+    }
+          
+  },[dailyStore]);
+
   function handleOnDragEnd(result) {
     console.log('result >> ',result);
-    if (!result.destination) return;
-    const items = Array.from(taskListOrder);
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
+    if (result.destination){
+      
+      if (result.destination.droppableId === "dailyLists" && result.source.droppableId === "taskLists"){
+        const data = tasks.find((val,index)=>index === result.source.index)
+        let taskDate = getCurrentDate();
+        data.taskDate = taskDate;
+        console.log(data);
+        dispatch(updateTask(data));
+        setTimeout(() => {
+          dispatch(fetchTask(dispatch,{id:data.group}))
+          dispatch(fetchDailyTask(dispatch,'2020-02-01'))
+        }, 200);
+      }else if (result.source.droppableId === "dailyLists" && result.destination.droppableId === "taskLists"){
+        const data = dailyList.find((val,index)=>index === result.source.index)
+        data.taskDate = null;
+        console.log(data);
+        dispatch(updateTask(data));
+        setTimeout(() => {
+          dispatch(fetchTask(dispatch,{id:data.group}))
+          dispatch(fetchDailyTask(dispatch,'2020-02-01'))
+        }, 200);
+      }
+      else {
+        if( result.destination.droppableId === "dailyLists" ){
+          console.log('result >> ',result);
+          const items = Array.from(dailyListOrder);
+          const [reorderedItem] = items.splice(result.source.index, 1);
+          items.splice(result.destination.index, 0, reorderedItem);
+          setDailyListOrder(items);
+        }else{
+          const items = Array.from(taskListOrder);
+          const [reorderedItem] = items.splice(result.source.index, 1);
+          items.splice(result.destination.index, 0, reorderedItem);
+          setTaskListOrder(items);
+        }
+        
+      }
 
-    setTaskListOrder(items);
+      dispatch(triggerTaskDropArea(false))
+      dispatch(triggerDailyDropArea(false));
+    }
+    setDragFlag(false);
+    return;
+    
+  }
+
+  const setTempFixedDragCardFromDailyToTaskList = (result)=>{
+    console.log('result >>> ',result);
+    if(result.source.droppableId === "dailyLists"){
+      setDragFlag(true)
+    }
   }
 
   return (
       <Container className={'d-flex flex-column'} 
         style={{flex:1,minHeight:'80vh',marginTop:'3%',overflow:'hidden'}} >
-          <Row className={'TaskCreate'} >
-            <DragDropContext onDragEnd={handleOnDragEnd}>
+          <Row >
+            <DragDropContext onDragEnd={handleOnDragEnd} onDragStart={setTempFixedDragCardFromDailyToTaskList}>
             <Col xs={6}>
               <AddWork />
             </Col>
-            <Col xs={6}>
+            <Col xs={6} style={(dragflag)?{'position':'static','zIndex':-10}:{}}>
               <WorkList />
             </Col>
             </DragDropContext>

@@ -52,7 +52,7 @@ function CardDrag(){
             dispatch(fetchTask(dispatch,{
                 id:task.group
             }))
-        }, 20);
+        }, 200);
     }
 
     const getPiorityDisplay = (priority)=>{

@@ -6,7 +6,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import rootReducers from './reducer';
-import { fetchGroup } from './action';
+import { fetchGroup,fetchDailyTask } from './action';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
@@ -17,6 +17,7 @@ const store = createStore(
   )
 )
 store.dispatch(fetchGroup(store.dispatch));
+store.dispatch(fetchDailyTask(store.dispatch,'2020-02-01'))
 
 store.subscribe(() => {
   console.log('getState >> ',store.getState())

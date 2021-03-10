@@ -3,7 +3,8 @@ import axios from 'axios';
 const initialState = {
     taskList: [],
     prioritySort: false,
-    showAllStatus: false
+    showAllStatus: false,
+    showTaskDropArea: false
 }
 
 const isTaskExist = (taskList,task)=>{
@@ -93,6 +94,11 @@ const taskReducer = (state = initialState, action)=>{
             return {
                 ...state,
                 showAllStatus:action.payload
+            }
+        case 'TRIGGER_TASK_DROP_AREA':
+            return {
+                ...state,
+                showTaskDropArea:action.payload
             }
         default:
           return state

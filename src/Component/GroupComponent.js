@@ -34,7 +34,9 @@ function GroupComponent(){
         }else{
             dispatch(selectGroupGlobal(group));
             setSelectGroup(group)
-            dispatch(fetchTask(dispatch,group))
+            setTimeout(() => {
+                dispatch(fetchTask(dispatch,group))
+            }, 200);
         }
         
     }
@@ -47,7 +49,7 @@ function GroupComponent(){
         setIsCreateGroup(false);
         setTimeout(()=>{
             getGroup(dispatch);
-        },100);
+        },200);
     }
 
     const getGroup = (dispatch) =>{

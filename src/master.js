@@ -50,3 +50,12 @@ export const getPriorityDisplay = (priority)=>{
         default : return {}
     }
 }
+
+export const getCurrentDate = ()=>{
+    let d = new Date();
+    let day = (d.getDate().toString().length < 2)?'0'+d.getDate():d.getDate();
+    let month = (d.getMonth().toString().length < 2)?'0'+(d.getMonth()+1):d.getMonth()+1
+    let year = d.getFullYear()
+
+    return year+'-'+month+'-'+day;
+}
