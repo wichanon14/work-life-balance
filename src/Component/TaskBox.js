@@ -93,7 +93,7 @@ function TaskBox(){
                                 {...provided.droppableProps} ref={provided.innerRef}>
                                 {
                                     taskListOrder.map((task,i)=>((!task.isComplete||showAll)
-                                        && task.taskDate === null
+                                        && ( task.taskDate === null||showAll )
                                         && task.group === groupSelect.id)?
                                     (
                                         <div style={{'opacity':(task.isComplete)?0.5:1}}>
@@ -110,6 +110,12 @@ function TaskBox(){
                                                             <input type="checkbox" checked={task.isComplete} onChange={()=>{''}}
                                                                 style={{'marginRight':'1vw','transform':'scale(1.2)'}}/>
                                                             {'TASK-'+task.id+' '+task.taskName}
+                                                            {(task.isComplete)?
+                                                            (
+                                                                <Badge pill variant={'dark'} >
+                                                                    {task.taskDate}
+                                                                </Badge>
+                                                            ):''}
                                                             <Badge pill variant={getPriorityDisplay(task.priority).color} className={'float-right'}>
                                                                 {getPriorityDisplay(task.priority).text}
                                                             </Badge>

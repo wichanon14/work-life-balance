@@ -65,10 +65,10 @@ function DailyList(){
                             {provided.placeholder}
                         </Row>
                         ):(
-                        <div className={'border rounded scrollBar'} 
-                            style={{moverflowY:'auto',overflowX:'hidden'}}
-                            >
-                            <ListGroup style={{'display':'flex',minHeight:'50vh',maxHeight:'50vh'}} className="dailyLists flex-column-reverse" 
+                        <div className={''} >
+                            <ListGroup style={{'display':'flex',minHeight:'50vh',
+                                maxHeight:'50vh',overflowY:'auto',overflowX:'hidden'}} 
+                                className="dailyLists flex-column-reverse border rounded scrollBar" 
                                 {...provided.droppableProps} ref={provided.innerRef}>
                                 {
                                     dailyListOrder.map((task,i)=>

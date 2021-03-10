@@ -63,7 +63,7 @@ function AddWork(){
                 <Form.Control type="text" placeholder="Task Name"
                     onChange={(e)=>setTask(e.target.value)} onKeyPress={(e)=>(e.key==='Enter')?submitTask():''} ref={textForm}/>
             </InputGroup>
-            <Row>
+            <Row style={{marginBottom:'5%'}}>
                 <Col xs={9}></Col>
                 <Button onClick={()=>submitTask()}>Create Task</Button>
             </Row>

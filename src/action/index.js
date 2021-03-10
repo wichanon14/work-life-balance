@@ -76,10 +76,11 @@ export const fetchGroup = ()=>{
         .then(response=>{
 
             let dataList = response.data;
-            dataList.push({
-                id:-1,
-                groupName: '+'
-            })
+            if(dataList)
+                dataList.push({
+                    id:-1,
+                    groupName: '+'
+                })
             dispatch({ type: "SET_ALL_GROUP", payload: dataList })
             
             console.log('state >><',state);
