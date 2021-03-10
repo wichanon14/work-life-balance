@@ -28,3 +28,25 @@ export const searchPriority = (task) =>{
         priority:p
     }
 }
+
+export const getPriorityDisplay = (priority)=>{
+    switch(priority){
+        case 0:return {
+            color:'danger',
+            text:'UI'
+        };
+        case 1:return {
+            color:'warning',
+            text:'UNI'
+        };
+        case 2:return {
+            color:'primary',
+            text:'NUI'
+        };
+        case 3:return {
+            color:'light',
+            text:'NUNI'
+        };
+        default : return {}
+    }
+}

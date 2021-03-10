@@ -3,7 +3,7 @@ import { useSelector,useDispatch } from 'react-redux';
 import React,{ useEffect, useState } from 'react';
 import { fetchTask,updateTask } from '../action';
 import { Animated } from "react-animated-css";
-import { DragDropContext,Draggable,Droppable } from 'react-beautiful-dnd';
+import { Draggable,Droppable } from 'react-beautiful-dnd';
 
 function TaskBox(){
 
@@ -78,20 +78,11 @@ function TaskBox(){
         }
     }
 
-    function handleOnDragEnd(result) {
-        console.log('result >> ',result);
-        if (!result.destination) return;
-        const items = Array.from(taskListOrder);
-        const [reorderedItem] = items.splice(result.source.index, 1);
-        items.splice(result.destination.index, 0, reorderedItem);
-
-        setTaskListOrder(items);
-    }
+    
 
     return (
-        <DragDropContext onDragEnd={handleOnDragEnd}>
-            <div style={{minHeight:'50vh',maxHeight:'50vh',overflowY:'auto',overflowX:'hidden'}} className={'d-flex flex-column-reverse border rounded scrollBar'}>
-            <Droppable droppableId="taskLists">
+        <div style={{minHeight:'50vh',maxHeight:'50vh',overflowY:'auto',overflowX:'hidden'}} className={'d-flex flex-column-reverse border rounded scrollBar'}>
+            <Droppable droppableId="taskLists" >
                 {
                     (provided) =>(tasks.length === 0)?(
                         <Row style={{minHeight:'25vh',maxHeight:'25vh'}} className="taskLists"
@@ -111,8 +102,8 @@ function TaskBox(){
                                             (provided)=>(
                                                 <Animated animationIn={(i === 1)?"bounceInLeft":''} 
                                                     animationInDuration={500} isVisible={true}>
+                                                    <div style={{'opacity':(task.isComplete)?0.5+'!important':1}}>
                                                     <ListGroup.Item className={'rounded'} onClick={()=>completeTask(task)} 
-                                                        style={{'opacity':(task.isComplete)?0.5:1}}
                                                         ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                                                         <input type="checkbox" checked={task.isComplete} onChange={()=>{''}}
                                                             style={{'marginRight':'1vw','transform':'scale(1.2)'}}/>
@@ -121,6 +112,7 @@ function TaskBox(){
                                                             {getPiorityDisplay(task.priority).text}
                                                         </Badge>
                                                     </ListGroup.Item>
+                                                    </div>
                                                 </Animated>
                                             )
                                         }
@@ -132,8 +124,7 @@ function TaskBox(){
                     )
                 }
             </Droppable>
-            </div>
-        </DragDropContext>
+        </div>
     )
 
 }
