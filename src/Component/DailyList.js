@@ -73,7 +73,7 @@ function DailyList(){
                                 {
                                     dailyListOrder.map((task,i)=>
                                     (
-                                        <div style={{'opacity':(task.isComplete)?0.5:1}}>
+                                        <div key={task.id} style={{'opacity':(task.isComplete)?0.5:1}}>
                                         <Draggable key={task.id} draggableId={task.id+""} index={i}>
                                             {
                                                 (provided)=>(
@@ -85,6 +85,14 @@ function DailyList(){
                                                             <input type="checkbox" checked={task.isComplete} onChange={()=>{''}}
                                                                 style={{'marginRight':'1vw','transform':'scale(1.2)'}}/>
                                                             {'TASK-'+task.id+' '+task.taskName}
+                                                            {
+                                                                (task.isComplete)?
+                                                                (
+                                                                    <Badge pill variant={'dark'}>
+                                                                        {task.update_date.split(' ')[1].substr(0,5)}
+                                                                    </Badge>
+                                                                ):''
+                                                            }
                                                             <Badge pill variant={getPriorityDisplay(task.priority).color} className={'float-right'}>
                                                                 {getPriorityDisplay(task.priority).text}
                                                             </Badge>

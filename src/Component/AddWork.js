@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from 'react';
 import { Form,Button,Row,Col,InputGroup,DropdownButton,Dropdown } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
-import { createTask,fetchTask,selectGroupGlobal } from '../action';
+import { createTask,fetchTask,selectGroupGlobal,fetchDailyTask } from '../action';
 import { searchPriority } from '../master';
 import { useSelector } from 'react-redux';
 import DailyList from './DailyList';
@@ -10,17 +10,24 @@ function AddWork(){
 
     const [task,setTask] = useState('');
     const [groups,setGroups] = useState([]);
-    const [groupSelect,setGroupSelect] = useState({});
+    const [groupSelect,setGroupSelect] = useState({
+        id:null,
+        groupName:'DailyList'
+    });
     const dispatch = useDispatch();
     const textForm = React.useRef();
     const groupList = useSelector(state=>state.groups)
 
     useEffect(() => {
         setGroups(groupList.groupList);
-        if( groupList.groupList.length > 0 && JSON.stringify(groupSelect) === JSON.stringify({}) ){
-            setGroupSelect(groupList.groupList[0]);           
+        if( groupList.groupList.length > 0){
+            let groupData = [{
+                id:null,
+                groupName:'DailyList'
+            }, ...groupList.groupList];
+            setGroups(groupData);
         }
-      }, [groupList,groups,groupSelect])
+      }, [groupList,groupSelect])
 
     const submitTask = ()=>{
         let taskObj = searchPriority(task);
@@ -33,6 +40,7 @@ function AddWork(){
             dispatch(fetchTask(dispatch,{
                 id:groupSelect.id
             }))
+            dispatch(fetchDailyTask(dispatch,'2020-02-01'))
         }, 200);
         
         dispatch(selectGroupGlobal(groupSelect));

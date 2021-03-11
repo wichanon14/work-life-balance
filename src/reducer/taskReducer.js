@@ -65,7 +65,7 @@ const updateTask = (state,action) =>{
     
     })
     .catch(function (error) {
-        console.log(error);
+        console.error(error);
     });
 
     return state

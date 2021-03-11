@@ -56,7 +56,6 @@ function TaskBox(){
         task.isComplete = !task.isComplete;
         task.taskDate = getCurrentDate();
         dispatch(updateTask(task));
-        console.log('task >> ',task);
         setTimeout(() => {
             dispatch(fetchTask(dispatch,{
                 id:task.group

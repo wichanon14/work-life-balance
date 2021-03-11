@@ -82,8 +82,6 @@ export const fetchGroup = ()=>{
                     groupName: '+'
                 })
             dispatch({ type: "SET_ALL_GROUP", payload: dataList })
-            
-            console.log('state >><',state);
 
         })   
     }

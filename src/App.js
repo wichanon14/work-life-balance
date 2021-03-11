@@ -33,14 +33,12 @@ function App() {
   },[dailyStore]);
 
   function handleOnDragEnd(result) {
-    console.log('result >> ',result);
     if (result.destination){
       
       if (result.destination.droppableId === "dailyLists" && result.source.droppableId === "taskLists"){
         const data = tasks.find((val,index)=>index === result.source.index)
         let taskDate = getCurrentDate();
         data.taskDate = taskDate;
-        console.log(data);
         dispatch(updateTask(data));
         setTimeout(() => {
           dispatch(fetchTask(dispatch,{id:data.group}))
@@ -49,7 +47,6 @@ function App() {
       }else if (result.source.droppableId === "dailyLists" && result.destination.droppableId === "taskLists"){
         const data = dailyList.find((val,index)=>index === result.source.index)
         data.taskDate = null;
-        console.log(data);
         dispatch(updateTask(data));
         setTimeout(() => {
           dispatch(fetchTask(dispatch,{id:data.group}))
@@ -58,7 +55,6 @@ function App() {
       }
       else {
         if( result.destination.droppableId === "dailyLists" ){
-          console.log('result >> ',result);
           const items = Array.from(dailyListOrder);
           const [reorderedItem] = items.splice(result.source.index, 1);
           items.splice(result.destination.index, 0, reorderedItem);
@@ -81,7 +77,6 @@ function App() {
   }
 
   const setTempFixedDragCardFromDailyToTaskList = (result)=>{
-    console.log('result >>> ',result);
     if(result.source.droppableId === "dailyLists"){
       setDragFlag(true)
     }

@@ -47,7 +47,6 @@ function CardDrag(){
     const completeTask = (task)=>{
         task.isComplete = !task.isComplete;
         //dispatch(updateTask(task));
-        console.log('task >> ',task);
         setTimeout(() => {
             dispatch(fetchTask(dispatch,{
                 id:task.group
