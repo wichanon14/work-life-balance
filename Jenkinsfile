@@ -15,11 +15,10 @@ remoteWeb01.allowAnyHosts = true
 node('master') {
     stage('Clone repository') {
         checkout scm
-        // sh 'git submodule update --init'
     }
 
     stage('Prepare') {
-        projectID = "fund-dsweb"
+        projectID = "work-life-balance"
         commitHash = commitSha1()
         envName = env.BRANCH_NAME
         registryIP = "https://registry.hub.docker.com"
@@ -29,9 +28,7 @@ node('master') {
 
     stage('Build Image') {
         echo "Start building image [${projectID}:${imgTag}]"
-        // CHANGE CMD
-        // sh "sed -i \'s/test/start/g\' ./Dockerfile"
-        // sh "echo ${imgTag} >> BUILD.ver"
+        
         def dockerfile = "./Dockerfile"
         docker.withRegistry("${registryIP}","wichanon17978") {
             def img = docker.build("${projectID}:${imgTag}")
