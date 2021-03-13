@@ -88,7 +88,7 @@ function DailyList(){
                                                             {
                                                                 (task.isComplete)?
                                                                 (
-                                                                    <Badge pill variant={'dark'}>
+                                                                    <Badge pill variant={'dark'} style={{marginLeft:'3%'}}>
                                                                         {task.update_date.split(' ')[1].substr(0,5)}
                                                                     </Badge>
                                                                 ):''
