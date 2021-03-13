@@ -28,10 +28,10 @@ node('master') {
 
     stage('Build Image') {
         echo "Start building image [${projectID}:${imgTag}]"
-        
+
         def dockerfile = "./Dockerfile"
         docker.withRegistry("${registryIP}","wichanon17978") {
-            def img = docker.build("${projectID}:${imgTag}")
+            def img = docker.build("wichanon17978/${projectID}:latest")
             img.push("${envName}-latest")
         }
 
