@@ -13,6 +13,7 @@ function DailyList(){
     const [showDropArea,setShowDropArea] = useState(false);
     const dailyStore = useSelector(state=>state.dailyList);
     const [dailyListOrder,setDailyListOrder] = useState(dailyList);
+    const [clearTime,setClearTime] = useState(setTimeout(()=>{},1));
     const dispatch = useDispatch();
 
     useEffect(()=>{
@@ -42,9 +43,22 @@ function DailyList(){
     const handleOnDrage = (event)=>{
 
         if( event.nativeEvent.which !== 3 ){
-            dispatch(triggerTaskDropArea(true));
+
+            let a = setTimeout(()=>{                
+                dispatch(triggerTaskDropArea(true));
+            },100);
+    
+            setClearTime(a);
+
         }
+
         
+        
+    }
+
+    const clearHandleOnDrag = ()=>{
+        clearTimeout(clearTime);
+        dispatch(triggerTaskDropArea(false));
     }
 
 
@@ -81,7 +95,7 @@ function DailyList(){
                                                         animationInDuration={500} isVisible={true}>
                                                         <ListGroup.Item className={'rounded'} onClick={()=>completeTask(task)} 
                                                             ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}
-                                                            onMouseDown={(e)=>handleOnDrage(e)} >
+                                                            onMouseDown={(e)=>handleOnDrage(e)} onMouseUp={(e)=>clearHandleOnDrag()}>
                                                             <input type="checkbox" checked={task.isComplete} onChange={()=>{''}}
                                                                 style={{'marginRight':'1vw','transform':'scale(1.2)'}}/>
                                                             {'TASK-'+task.id+' '+task.taskName}
