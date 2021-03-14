@@ -108,7 +108,6 @@ export const fetchDailyTask = (dispatch,date)=>{
 }
 
 
-
 export const fetchWeekOverview = (dispatch,data)=>{
 
     // set data
@@ -151,4 +150,48 @@ export const setCurrentDateSelect = (data)=>{
         type:'SET_CURRENT_DATE_SELECT',
         payload:data
     }
+}
+
+export const setSignin = (data)=>{
+    return {
+        type:'SET_SIGN_IN',
+        payload:data
+    }
+}
+
+export const signin = (data)=>{
+
+    // set data
+    var body = JSON.stringify(
+        {
+            "action":"signin",
+            "payload":{
+                "username": data.username,
+                "password": data.password
+            }
+        });
+
+    // set config
+    var config = {
+        method: 'post',
+        url: 'http://localhost/work-life-balance-api/',
+        headers: { 
+            'Content-Type': 'application/json'
+        },
+        data : body
+    };
+
+    return (dispatch)=>{
+        axios(config)
+        .then(function (response) {
+            dispatch({
+                type:'SET_SIGN_IN',
+                payload:response.data.status
+            })
+        })
+        .catch(function (error) {
+            console.error(error);
+        });
+    }
+
 }

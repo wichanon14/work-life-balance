@@ -5,6 +5,7 @@ import WorkList from './Component/WorkList';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { useSelector,useDispatch } from 'react-redux';
 import { triggerDailyDropArea, updateTask, fetchDailyTask, triggerTaskDropArea,fetchTask } from './action';
+import Authentication from './Component/Authentication'
 
 function App() {
   
@@ -14,6 +15,7 @@ function App() {
   const [dragflag,setDragFlag] = useState(false);
   const tasksRetrieve = useSelector(state=>state.tasks)
   const dailyStore = useSelector(state=>state.dailyList);
+  const userData = useSelector(state=>state.userData);
   const [dailyListOrder,setDailyListOrder] = useState(dailyList);
   const dispatch = useDispatch();
 
@@ -83,19 +85,25 @@ function App() {
   }
 
   return (
-      <Container className={'d-flex flex-column'} 
-        style={{flex:1,minHeight:'80vh',marginTop:'3%',overflow:'hidden'}} >
-          <Row >
-            <DragDropContext onDragEnd={handleOnDragEnd} onDragStart={setTempFixedDragCardFromDailyToTaskList}>
-            <Col xs={6}>
-              <AddWork />
-            </Col>
-            <Col xs={6} style={(dragflag)?{'position':'static','zIndex':-10}:{}}>
-              <WorkList />
-            </Col>
-            </DragDropContext>
-          </Row>
-      </Container>
+      (userData.signinStatus)?
+      (
+        <Container className={'d-flex flex-column'} 
+          style={{flex:1,minHeight:'80vh',marginTop:'3%',overflow:'hidden'}} >
+            <Row >
+              <DragDropContext onDragEnd={handleOnDragEnd} onDragStart={setTempFixedDragCardFromDailyToTaskList}>
+              <Col xs={6}>
+                <AddWork />
+              </Col>
+              <Col xs={6} style={(dragflag)?{'position':'static','zIndex':-10}:{}}>
+                <WorkList />
+              </Col>
+              </DragDropContext>
+            </Row>
+        </Container>
+      ):
+      (
+        <Authentication />
+      )
   );
 }
 

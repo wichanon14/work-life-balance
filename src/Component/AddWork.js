@@ -48,6 +48,7 @@ function AddWork(){
         
         dispatch(selectGroupGlobal(groupSelect));
 
+        // clear input after press 'Enter'
         textForm.current.value = '';
         setTask('');
     }
