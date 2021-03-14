@@ -36,7 +36,7 @@ function DailyList(){
         
         //fetch daily list
         setTimeout(() => {
-            dispatch(fetchDailyTask(dispatch,'2020-02-01'))
+            dispatch(fetchDailyTask(dispatch,dailyStore.currentDateSelect))
         }, 200);
     }
 

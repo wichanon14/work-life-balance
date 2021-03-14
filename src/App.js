@@ -5,7 +5,6 @@ import WorkList from './Component/WorkList';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { useSelector,useDispatch } from 'react-redux';
 import { triggerDailyDropArea, updateTask, fetchDailyTask, triggerTaskDropArea,fetchTask } from './action';
-import { getCurrentDate } from './master';
 
 function App() {
   
@@ -37,12 +36,13 @@ function App() {
       
       if (result.destination.droppableId === "dailyLists" && result.source.droppableId === "taskLists"){
         const data = tasks.find((val,index)=>index === result.source.index)
-        let taskDate = getCurrentDate();
+        let taskDate = dailyStore.currentDateSelect
+        console.log(' TaskDate >> ',taskDate);
         data.taskDate = taskDate;
         dispatch(updateTask(data));
         setTimeout(() => {
           dispatch(fetchTask(dispatch,{id:data.group}))
-          dispatch(fetchDailyTask(dispatch,'2020-02-01'))
+          dispatch(fetchDailyTask(dispatch,dailyStore.currentDateSelect))
         }, 200);
       }else if (result.source.droppableId === "dailyLists" && result.destination.droppableId === "taskLists"){
         const data = dailyList.find((val,index)=>index === result.source.index)
@@ -50,7 +50,7 @@ function App() {
         dispatch(updateTask(data));
         setTimeout(() => {
           dispatch(fetchTask(dispatch,{id:data.group}))
-          dispatch(fetchDailyTask(dispatch,'2020-02-01'))
+          dispatch(fetchDailyTask(dispatch,dailyStore.currentDateSelect))
         }, 200);
       }
       else {

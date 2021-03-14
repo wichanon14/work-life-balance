@@ -15,14 +15,16 @@ const isTaskExist = (taskList,task)=>{
 const addTask = (state,action)=>{
 
     var data = JSON.stringify(
-        {
-            "action":"createTask",
-            "payload":{
-                "task": action.payload.task,
-                "priority": action.payload.priority,
-                "group": action.payload.group
-            }
-        });
+    {
+        "action":"createTask",
+        "payload":{
+            "task": action.payload.task,
+            "priority": action.payload.priority,
+            "group": action.payload.group,
+            "date":action.payload.date
+        }
+    });
+    
         
     var config = {
         method: 'post',

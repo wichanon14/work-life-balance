@@ -1,3 +1,5 @@
+import { Badge } from 'react-bootstrap';
+
 export const searchPriority = (task) =>{
     
     let p = 0,taskName = '';
@@ -44,7 +46,7 @@ export const getPriorityDisplay = (priority)=>{
             text:'NUI'
         };
         case 3:return {
-            color:'white',
+            color:'light',
             text:'NUNI'
         };
         default : return {}
@@ -88,5 +90,21 @@ export const getMonthNameFromMonthNum = (month)=>{
         case 12 : return 'Decembern';
         default: return '';
     }
+
+}
+
+export const getBadgeFromDayOfWeek = (day)=>{
+
+    switch(day){
+        case 0: return (<Badge pill variant={'dark'}>Sun</Badge>)
+        case 1: return (<Badge pill variant={'dark'}>Mon</Badge>)
+        case 2: return (<Badge pill variant={'dark'}>Tue</Badge>)
+        case 3: return (<Badge pill variant={'dark'}>Wed</Badge>)
+        case 4: return (<Badge pill variant={'dark'}>Thu</Badge>)
+        case 5: return (<Badge pill variant={'dark'}>Fri</Badge>)
+        case 6: return (<Badge pill variant={'dark'}>Sat</Badge>)
+        default: return ;
+    }
+
 
 }

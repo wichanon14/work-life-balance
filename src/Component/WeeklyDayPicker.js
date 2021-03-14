@@ -1,32 +1,24 @@
 import { useEffect, useState } from 'react';
-import { Row, Col, Badge } from 'react-bootstrap';
-import { useSelector, useDispatch } from 'react-redux';
-import { getMonthNameFromMonthNum,convertDateToDateFormat,getPriorityDisplay } from '../master';
-import { fetchWeekOverview } from '../action';
+import { Row, Col } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
+import { getMonthNameFromMonthNum,convertDateToDateFormat } from '../master';
+import { getBadgeFromDayOfWeek } from '../master';
+import { fetchDailyTask, setCurrentDateSelect } from '../action';
 
 const WeeklyDayPicker = ()=>{
 
-    const dispatch = useDispatch();
-    const dailyStore = useSelector(state=>state.dailyList)
     const [ currentDatePicked, setCurrentDatePicked] = useState(new Date());
     const [ weekDateList, setWeekDateList ] = useState([]);
-    const [ weekPriorityList, setWeekPriorityList] = useState({});
-
-    useEffect(()=>{
-        setWeekPriorityList(dailyStore.weeklyTaskOverview)
-        console.log(weekPriorityList)
-        if( weekPriorityList['2021-03-11']){
-            weekPriorityList['2021-03-11'].map((weekVal,weekIndex)=>{
-                console.log(getPriorityDisplay(weekVal).color);
-            })
-        }
-    },[dailyStore.weeklyTaskOverview])
+    const dispatch = useDispatch();
 
 
     useEffect(()=>{
 
-        if( !currentDatePicked )
+        if( !currentDatePicked ){
             setCurrentDatePicked(new Date());
+            dispatch(setCurrentDateSelect( convertDateToDateFormat(new Date()) ));
+        }
+            
         let weekDateListTmp = WeeklyGenerate();
         if( weekDateList.length===0 )
             setWeekDateList(weekDateListTmp)
@@ -43,86 +35,80 @@ const WeeklyDayPicker = ()=>{
         
         for(let i = -3; i<4 ; i++){
 
-            let dayGenerate = new Date();
+            let dayGenerate = currentDatePicked;
             if( i < 0){
-                dayGenerate = new Date()-1;
+                dayGenerate = currentDatePicked-1;
                 dayGenerate = dayGenerate+(3600*1000*24*i)
             }else{
-                let tomorrow = new Date();
+                let tomorrow = new Date(currentDatePicked);
                 tomorrow.setDate( dayGenerate.getDate()+i )
                 dayGenerate = tomorrow;
             }
+            let targetDate = new Date(dayGenerate)
+            let date = targetDate.getDate();
+            let month = getMonthNameFromMonthNum(targetDate.getMonth());
 
-            let date = new Date(dayGenerate).getDate();
-            let month = getMonthNameFromMonthNum(new Date(dayGenerate).getMonth());
-
-
-            if( convertDateToDateFormat(new Date(dayGenerate)) === convertDateToDateFormat(currentDatePicked) ){
+            if( convertDateToDateFormat(targetDate) === convertDateToDateFormat(currentDatePicked) ){
                 weekDateListTmp.push({
                     date:date,
                     month:month.substr(0,3),
                     dateSelect:true,
-                    dateString:convertDateToDateFormat(new Date(dayGenerate))
+                    dateString:convertDateToDateFormat(targetDate),
+                    dayOfWeek:targetDate.getDay()
                 })
             }else{
                 weekDateListTmp.push({
                     date:date,
                     month:month.substr(0,3),
-                    dateString:convertDateToDateFormat(new Date(dayGenerate))
+                    dateString:convertDateToDateFormat(targetDate),
+                    dayOfWeek:targetDate.getDay()
                 })
             }
-            dateList.push(convertDateToDateFormat(new Date(dayGenerate)))
+            dateList.push(convertDateToDateFormat(targetDate))
 
         }
-        dispatch(fetchWeekOverview(dispatch,dateList));
-        console.log(weekDateListTmp)
-        return weekDateListTmp
         
+        return weekDateListTmp
     
     }
 
+    const selectDate = (data)=>{
+        if( data.dateString !== convertDateToDateFormat(currentDatePicked)){       
+            let dateSelected = new Date(data.dateString);
+            dispatch(setCurrentDateSelect(data.dateString));
+            setCurrentDatePicked(dateSelected);
+            setWeekDateList([]);
+
+            setTimeout(()=>{
+                dispatch(fetchDailyTask(dispatch,data.dateString));
+            },200)
+        }
+
+    }
+
+
     return (
-        <div style={{minHeight:'10vh',maxHeight:'10vh'}} className={'border'}>
+        <div style={{minHeight:'13vh',maxHeight:'13vh'}} className={'border'}>
             <Row className={'text-center'} style={{margin: 0}}>
             {
                 weekDateList.map((val,index)=>
                     (
                         (!val.dateSelect)?
                         (
-                            <Col key={'month'+index} className={'border btn bg-light'}>
-                                <h5 style={{'marginTop':'0.3rem','marginBottom':'0rem'}}>
+                            <Col key={'month'+index} className={'border btn bg-light'} onClick={()=>selectDate(val)}>
+                                {getBadgeFromDayOfWeek(val.dayOfWeek)}
+                                <h6 style={{'marginTop':'0.1rem','marginBottom':'0rem'}}>
                                     {val.month}
-                                </h5> 
+                                </h6> 
                                 <span>{val.date}</span>
-                                <Row className={'justify-content-center'}>
-                                    {
-                                        (weekPriorityList[val.dateString])?
-                                        (
-                                            weekPriorityList[val.dateString].map((weekVal,weeIndex)=>
-                                                <Badge pill variant={getPriorityDisplay(weekVal).color}> </Badge>
-                                            )
-                                        ):''
-                                    }
-                                    
-                                </Row>
                             </Col>
                         ):(
-                            <Col key={'month'+index} className={'border btn bg-dark'}>
-                                <h5 style={{'marginTop':'0.3rem','marginBottom':'0rem'}} className={'text-light'}>
+                            <Col key={'month'+index} className={'border btn bg-dark'} onClick={()=>selectDate(val)}>
+                                {getBadgeFromDayOfWeek(val.dayOfWeek)}
+                                <h6 style={{'marginTop':'0.1rem','marginBottom':'0rem'}} className={'text-light'}>
                                     {val.month}
-                                </h5> 
+                                </h6> 
                                 <span className={'text-light'}>{val.date}</span>
-                                <Row className={'justify-content-center'}>
-                                    {
-                                        (weekPriorityList[val.dateString])?
-                                        (
-                                            weekPriorityList[val.dateString].map((weekVal,weeIndex)=>
-                                                <Badge pill variant={getPriorityDisplay(weekVal).color}> </Badge>
-                                            )
-                                        ):''
-                                    }
-                                    
-                                </Row>
                             </Col>
                         )
                     )

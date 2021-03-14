@@ -112,7 +112,7 @@ export const fetchDailyTask = (dispatch,date)=>{
 export const fetchWeekOverview = (dispatch,data)=>{
 
     // set data
-    var data = JSON.stringify(
+    var body = JSON.stringify(
         {
             "action":"getWeekOverview",
             "payload":{
@@ -127,7 +127,7 @@ export const fetchWeekOverview = (dispatch,data)=>{
         headers: { 
             'Content-Type': 'application/json'
         },
-        data : data
+        data : body
     };
 
     return (dispatch)=>{
@@ -143,6 +143,12 @@ export const fetchWeekOverview = (dispatch,data)=>{
         });
     }
 
-    
+}
 
+
+export const setCurrentDateSelect = (data)=>{
+    return {
+        type:'SET_CURRENT_DATE_SELECT',
+        payload:data
+    }
 }

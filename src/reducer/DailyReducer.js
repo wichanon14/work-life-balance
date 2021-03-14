@@ -1,4 +1,3 @@
-import axios from 'axios';
 
 const dailyState = {
     dailyList : [{
@@ -32,6 +31,11 @@ const DailyReducer = ( state=dailyState, action )=>{
             return {
                 ...state,
                 showDailyDropArea:action.payload
+            }
+        case 'SET_CURRENT_DATE_SELECT':
+            return {
+                ...state,
+                currentDateSelect:action.payload
             }
         default : return state
     }

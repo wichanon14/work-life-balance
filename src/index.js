@@ -9,6 +9,7 @@ import rootReducers from './reducer';
 import { fetchGroup,fetchDailyTask } from './action';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import { convertDateToDateFormat } from './master';
 
 const store = createStore(
   rootReducers,
@@ -17,7 +18,7 @@ const store = createStore(
   )
 )
 store.dispatch(fetchGroup(store.dispatch));
-store.dispatch(fetchDailyTask(store.dispatch,'2020-02-01'))
+store.dispatch(fetchDailyTask(store.dispatch,convertDateToDateFormat(new Date())))
 
 store.subscribe(() => {
   console.log('getState >> ',store.getState())

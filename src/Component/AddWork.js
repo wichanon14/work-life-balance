@@ -18,6 +18,7 @@ function AddWork(){
     const dispatch = useDispatch();
     const textForm = React.useRef();
     const groupList = useSelector(state=>state.groups)
+    const dailyStore = useSelector(state=>state.dailyList)
 
     useEffect(() => {
         setGroups(groupList.groupList);
@@ -35,13 +36,14 @@ function AddWork(){
         dispatch(createTask({
             task:taskObj.task,
             priority:taskObj.priority,
-            group:groupSelect.id
+            group:groupSelect.id,
+            date:dailyStore.currentDateSelect
         }));
         setTimeout(() => {
             dispatch(fetchTask(dispatch,{
                 id:groupSelect.id
             }))
-            dispatch(fetchDailyTask(dispatch,'2020-02-01'))
+            dispatch(fetchDailyTask(dispatch,dailyStore.currentDateSelect))
         }, 200);
         
         dispatch(selectGroupGlobal(groupSelect));

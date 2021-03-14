@@ -13,6 +13,7 @@ function WorkList(){
     const [showAll,setShowAll] = useState(false)
     const [groupSelect,setGroupSelect] = useState({})
     const tasksRetrieve = useSelector(state=>state.tasks)
+    const dailyStore = useSelector(state=>state.dailyList)
     const groupList = useSelector(state=>state.groups)
     const dispatch = useDispatch();
 
@@ -37,7 +38,7 @@ function WorkList(){
                 <Col>
                     <Button onClick={()=>{
                         dispatch(fetchTask(dispatch,groupSelect))
-                        dispatch(fetchDailyTask(dispatch,'2020-02-01'))
+                        dispatch(fetchDailyTask(dispatch,dailyStore.currentDateSelect))
                     }} >
                         Reload
                     </Button>
