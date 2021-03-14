@@ -14,63 +14,61 @@ const WeeklyDayPicker = ()=>{
 
     useEffect(()=>{
 
+        const WeeklyGenerate = ()=>{
+
+            let weekDateListTmp = [];
+            let dateList = [];
+            
+            for(let i = -3; i<4 ; i++){
+    
+                let dayGenerate = currentDatePicked;
+                if( i < 0){
+                    dayGenerate = currentDatePicked-1;
+                    dayGenerate = dayGenerate+(3600*1000*24*i)
+                }else{
+                    let tomorrow = new Date(currentDatePicked);
+                    tomorrow.setDate( dayGenerate.getDate()+i )
+                    dayGenerate = tomorrow;
+                }
+                let targetDate = new Date(dayGenerate)
+                let date = targetDate.getDate();
+                let month = getMonthNameFromMonthNum(targetDate.getMonth());
+    
+                if( convertDateToDateFormat(targetDate) === convertDateToDateFormat(currentDatePicked) ){
+                    weekDateListTmp.push({
+                        date:date,
+                        month:month.substr(0,3),
+                        dateSelect:true,
+                        dateString:convertDateToDateFormat(targetDate),
+                        dayOfWeek:targetDate.getDay()
+                    })
+                }else{
+                    weekDateListTmp.push({
+                        date:date,
+                        month:month.substr(0,3),
+                        dateString:convertDateToDateFormat(targetDate),
+                        dayOfWeek:targetDate.getDay()
+                    })
+                }
+                dateList.push(convertDateToDateFormat(targetDate))
+    
+            }
+            
+            return weekDateListTmp
+        
+        }
+
         if( !currentDatePicked ){
             setCurrentDatePicked(new Date());
-            dispatch(setCurrentDateSelect( convertDateToDateFormat(new Date()) ));
         }
             
-        let weekDateListTmp = WeeklyGenerate();
         if( weekDateList.length===0 )
-            setWeekDateList(weekDateListTmp)
-        else if( ((weekDateList[0].date !== weekDateListTmp[0].date)) && 
-            (weekDateList[0].month !== weekDateListTmp[0].month) )
-            setWeekDateList(weekDateListTmp)
+            setWeekDateList(WeeklyGenerate())
         
     },[weekDateList,currentDatePicked])
 
-    const WeeklyGenerate = ()=>{
-
-        let weekDateListTmp = [];
-        let dateList = [];
-        
-        for(let i = -3; i<4 ; i++){
-
-            let dayGenerate = currentDatePicked;
-            if( i < 0){
-                dayGenerate = currentDatePicked-1;
-                dayGenerate = dayGenerate+(3600*1000*24*i)
-            }else{
-                let tomorrow = new Date(currentDatePicked);
-                tomorrow.setDate( dayGenerate.getDate()+i )
-                dayGenerate = tomorrow;
-            }
-            let targetDate = new Date(dayGenerate)
-            let date = targetDate.getDate();
-            let month = getMonthNameFromMonthNum(targetDate.getMonth());
-
-            if( convertDateToDateFormat(targetDate) === convertDateToDateFormat(currentDatePicked) ){
-                weekDateListTmp.push({
-                    date:date,
-                    month:month.substr(0,3),
-                    dateSelect:true,
-                    dateString:convertDateToDateFormat(targetDate),
-                    dayOfWeek:targetDate.getDay()
-                })
-            }else{
-                weekDateListTmp.push({
-                    date:date,
-                    month:month.substr(0,3),
-                    dateString:convertDateToDateFormat(targetDate),
-                    dayOfWeek:targetDate.getDay()
-                })
-            }
-            dateList.push(convertDateToDateFormat(targetDate))
-
-        }
-        
-        return weekDateListTmp
     
-    }
+    
 
     const selectDate = (data)=>{
         if( data.dateString !== convertDateToDateFormat(currentDatePicked)){       
