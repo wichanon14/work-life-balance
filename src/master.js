@@ -44,7 +44,7 @@ export const getPriorityDisplay = (priority)=>{
             text:'NUI'
         };
         case 3:return {
-            color:'light',
+            color:'white',
             text:'NUNI'
         };
         default : return {}
@@ -58,4 +58,35 @@ export const getCurrentDate = ()=>{
     let year = d.getFullYear()
 
     return year+'-'+month+'-'+day;
+}
+
+export const convertDateToDateFormat = (d)=>{
+
+    let day = (d.getDate().toString().length < 2)?'0'+d.getDate():d.getDate();
+    let month = (d.getMonth().toString().length < 2)?'0'+(d.getMonth()+1):d.getMonth()+1
+    let year = d.getFullYear()
+
+    return year+'-'+month+'-'+day;
+}
+
+export const getMonthNameFromMonthNum = (month)=>{
+
+    month += 1;
+    
+    switch(month){
+        case 1 : return 'January';
+        case 2 : return 'Febuary';
+        case 3 : return 'March';
+        case 4 : return 'April';
+        case 5 : return 'May';
+        case 6 : return 'June';
+        case 7 : return 'July';
+        case 8 : return 'August';
+        case 9 : return 'September';
+        case 10 : return 'October';
+        case 11 : return 'November';
+        case 12 : return 'Decembern';
+        default: return '';
+    }
+
 }

@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 const dailyState = {
     dailyList : [{
         create_date: "2021-03-06 01:14:39",
@@ -8,9 +10,10 @@ const dailyState = {
         taskName: "Daily List ",
         update_date: "2021-03-06 01:14:39"
     }],
-    showDailyDropArea:false
+    showDailyDropArea:false,
+    currentDateSelect:'',
+    weeklyTaskOverview:{}
 }
-
 
 const DailyReducer = ( state=dailyState, action )=>{
 
@@ -19,6 +22,11 @@ const DailyReducer = ( state=dailyState, action )=>{
             return {
                 ...state,
                 dailyList:action.payload
+            }
+        case 'SET_WEEK_OVERVIEW':
+            return {
+                ...state,
+                weeklyTaskOverview:action.payload
             }
         case 'TRIGGER_DAILY_DROP_AREA':
             return {

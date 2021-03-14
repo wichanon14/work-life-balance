@@ -106,3 +106,43 @@ export const fetchDailyTask = (dispatch,date)=>{
         })
     }
 }
+
+
+
+export const fetchWeekOverview = (dispatch,data)=>{
+
+    // set data
+    var data = JSON.stringify(
+        {
+            "action":"getWeekOverview",
+            "payload":{
+                "dateList": data
+            }
+        });
+
+    // set config
+    var config = {
+        method: 'post',
+        url: 'http://localhost/work-life-balance-api/',
+        headers: { 
+            'Content-Type': 'application/json'
+        },
+        data : data
+    };
+
+    return (dispatch)=>{
+        axios(config)
+        .then(function (response) {
+            dispatch({
+                type:'SET_WEEK_OVERVIEW',
+                payload:response.data
+            })
+        })
+        .catch(function (error) {
+            console.error(error);
+        });
+    }
+
+    
+
+}

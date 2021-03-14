@@ -95,8 +95,8 @@ function TaskBox(){
                                         && ( task.taskDate === null||showAll )
                                         && task.group === groupSelect.id)?
                                     (
-                                        <div style={{'opacity':(task.isComplete)?0.5:1}}>
-                                        <Draggable key={task.id} draggableId={task.id+""} index={i}>
+                                        <div key={task.id} style={{'opacity':(task.isComplete)?0.5:1}}>
+                                        <Draggable  draggableId={task.id+""} index={i}>
                                             {
                                                 (provided)=>(
                                                     <Animated animationIn={(i === 1)?"bounceInLeft":''} 

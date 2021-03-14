@@ -5,6 +5,7 @@ import { createTask,fetchTask,selectGroupGlobal,fetchDailyTask } from '../action
 import { searchPriority } from '../master';
 import { useSelector } from 'react-redux';
 import DailyList from './DailyList';
+import WeeklyDayPicker from './WeeklyDayPicker';
 
 function AddWork(){
 
@@ -75,6 +76,7 @@ function AddWork(){
                 <Col xs={9}></Col>
                 <Button onClick={()=>submitTask()}>Create Task</Button>
             </Row>
+            <WeeklyDayPicker />
             <DailyList />
         </div>
     )
