@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { convertDateToDateFormat } from '../master';
 
 export const createTask = (data)=>{
     return {
@@ -99,6 +100,8 @@ export const fetchTask = (dispatch,group,user=1)=>{
 
 export const fetchDailyTask = (dispatch,date)=>{
     dispatch({ type: "SET_DAILY_LIST", payload: [] })
+    if(!date)
+        date = convertDateToDateFormat(new Date())
     return (dispatch)=>{
         axios.get('http://localhost/work-life-balance-api/?action=getDaily&date='+date)
         .then(response=>{
