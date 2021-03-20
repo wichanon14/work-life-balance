@@ -89,6 +89,12 @@ export const fetchGroup = ()=>{
 }
 
 export const fetchTask = (dispatch,group,user=1)=>{
+    if( !group || JSON.stringify(group) === '{}' )
+    {
+        return (dispatch)=>{
+            dispatch({ type: "SET_TASK_LIST", payload: [] })
+        }
+    }        
     dispatch({ type: "SET_TASK_LIST", payload: [] })
     return (dispatch)=>{
         axios.get('http://localhost/work-life-balance-api/?action=getTask&group='+group.id+'&user='+user)

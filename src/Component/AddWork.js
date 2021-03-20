@@ -58,8 +58,11 @@ function AddWork(){
             <Row>
                 <Col></Col>
             </Row>
-            <h1>Add Task</h1>
-            <InputGroup className="mb-3">
+            <h1>Daily Task</h1>
+            <WeeklyDayPicker />
+            <DailyList />
+            <Row></Row>
+            <InputGroup style={{marginTop:'8%'}}>
                 <DropdownButton
                     variant="outline-secondary"
                     title={( groupSelect && groupSelect.groupName )?groupSelect.groupName:'Group'}
@@ -73,14 +76,14 @@ function AddWork(){
                     }    
                 </DropdownButton>
                 <Form.Control type="text" placeholder="Task Name"
-                    onChange={(e)=>setTask(e.target.value)} onKeyPress={(e)=>(e.key==='Enter')?submitTask():''} ref={textForm}/>
+                    onChange={(e)=>setTask(e.target.value)} 
+                    onKeyPress={(e)=>(e.key==='Enter')?submitTask():''} ref={textForm}/>
             </InputGroup>
             <Row style={{marginBottom:'5%'}}>
                 <Col xs={9}></Col>
                 <Button onClick={()=>submitTask()}>Create Task</Button>
             </Row>
-            <WeeklyDayPicker />
-            <DailyList />
+            
         </div>
     )
 }

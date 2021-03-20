@@ -16,6 +16,7 @@ function App() {
   const tasksRetrieve = useSelector(state=>state.tasks)
   const dailyStore = useSelector(state=>state.dailyList);
   const userData = useSelector(state=>state.userData);
+  const groupStore = useSelector(state=>state.groups);
   const [dailyListOrder,setDailyListOrder] = useState(dailyList);
   const dispatch = useDispatch();
 
@@ -49,6 +50,8 @@ function App() {
       }else if (result.source.droppableId === "dailyLists" && result.destination.droppableId === "taskLists"){
         const data = dailyList.find((val,index)=>index === result.source.index)
         data.taskDate = null;
+        if( groupStore.groupSelect )
+          data.group = groupStore.groupSelect.id;
         dispatch(updateTask(data));
         setTimeout(() => {
           dispatch(fetchTask(dispatch,{id:data.group}))
@@ -88,7 +91,7 @@ function App() {
       (userData.signinStatus)?
       (
         <Container className={'d-flex flex-column'} 
-          style={{flex:1,minHeight:'80vh',marginTop:'3%',overflow:'hidden'}} >
+          style={{flex:1,minHeight:'80vh',marginTop:'2%',overflow:'hidden'}} >
             <Row >
               <DragDropContext onDragEnd={handleOnDragEnd} onDragStart={setTempFixedDragCardFromDailyToTaskList}>
               <Col xs={6}>

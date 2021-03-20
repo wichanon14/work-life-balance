@@ -103,7 +103,7 @@ function TaskBox(){
                                                         animationInDuration={500} isVisible={true}>
                                                         <ListGroup.Item className={'rounded'} onClick={()=>completeTask(task)} 
                                                             ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}
-                                                            onMouseDown={(e)=>{handleOnDrag(e)}} 
+                                                            onMouseDown={(e)=>{handleOnDrag(e)}} style={{padding:'0.5em 1em'}}
                                                             onMouseUp={()=>{dispatch(triggerDailyDropArea(false))}}
                                                             data-toggle="tooltip" title={task.taskFullName}>
                                                             <input type="checkbox" checked={task.isComplete} onChange={()=>{''}}

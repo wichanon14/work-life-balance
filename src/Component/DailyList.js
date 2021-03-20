@@ -95,7 +95,8 @@ function DailyList(){
                                                         animationInDuration={500} isVisible={true}>
                                                         <ListGroup.Item className={'rounded'} onClick={()=>completeTask(task)} 
                                                             ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}
-                                                            onMouseDown={(e)=>handleOnDrage(e)} onMouseUp={(e)=>clearHandleOnDrag()}>
+                                                            onMouseDown={(e)=>handleOnDrage(e)} onMouseUp={(e)=>clearHandleOnDrag()}
+                                                            data-toggle="tooltip" title={task.taskFullName} style={{padding:'0.5em 1em'}}>
                                                             <input type="checkbox" checked={task.isComplete} onChange={()=>{''}}
                                                                 style={{'marginRight':'1vw','transform':'scale(1.2)'}}/>
                                                             {'TASK-'+task.id+' '+task.taskName}

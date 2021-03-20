@@ -6,7 +6,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import rootReducers from './reducer';
-import { fetchGroup,fetchDailyTask } from './action';
+import { fetchGroup,fetchDailyTask,setCurrentDateSelect } from './action';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { convertDateToDateFormat } from './master';
@@ -17,6 +17,7 @@ const store = createStore(
     applyMiddleware(thunk)
   )
 )
+store.dispatch( setCurrentDateSelect(convertDateToDateFormat(new Date())) );
 store.dispatch(fetchGroup(store.dispatch));
 store.dispatch(fetchDailyTask(store.dispatch,convertDateToDateFormat(new Date())))
 

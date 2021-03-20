@@ -47,6 +47,10 @@ const addTask = (state,action)=>{
 }
 
 const updateTask = (state,action) =>{
+
+    let taskFullName = action.payload.taskFullName;
+    action.payload.taskFullName = taskFullName.replaceAll("\'","\\\'")
+
     var data = JSON.stringify(
         {
             "action":"updateTask",

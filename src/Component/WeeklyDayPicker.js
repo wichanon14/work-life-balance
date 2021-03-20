@@ -75,7 +75,7 @@ const WeeklyDayPicker = ()=>{
 
         let weekDateListTmp = [];
         let dateList = [];
-        console.log('currentDatePicked >> ',currentDatePicked);
+        
         for(let i = -3; i<4 ; i++){
 
             let dayGenerate = currentDatePicked;
