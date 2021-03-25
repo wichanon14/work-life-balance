@@ -3,7 +3,7 @@ import { Row, Col, Badge } from 'react-bootstrap';
 import { useDispatch,useSelector } from 'react-redux';
 import { getMonthNameFromMonthNum,convertDateToDateFormat } from '../master';
 import { getBadgeFromDayOfWeek } from '../master';
-import { fetchDailyTask, setCurrentDateSelect, fetchWeekOverview } from '../action';
+import { fetchDailyTask, setCurrentDateSelect, fetchWeekOverview, setGroupForDisplayDaily } from '../action';
 
 const WeeklyDayPicker = ()=>{
 
@@ -11,12 +11,12 @@ const WeeklyDayPicker = ()=>{
     const dailyStore = useSelector(state=>state.dailyList)
     const [ currentDatePicked, setCurrentDatePicked] = useState(new Date());
     const [ weekDateList, setWeekDateList ] = useState([]);
-    const [ weekPriorityList, setWeekPriorityList] = useState({});
+    const [ weekPriorityList, setWeekPriorityList] = useState({});    
 
     useEffect(()=>{
         setWeekPriorityList(dailyStore.weeklyTaskOverview)
     },[dailyStore.weeklyTaskOverview])
-    
+
     useEffect(()=>{
         const WeeklyGenerate = ()=>{
 
@@ -127,6 +127,7 @@ const WeeklyDayPicker = ()=>{
         
         setTimeout(()=>{
             dispatch(fetchDailyTask(dispatch,data.dateString));
+            dispatch( setGroupForDisplayDaily(0) )
         },100)
         console.log( ' fetch >> ',DateListWeeklyGenerated())
     }

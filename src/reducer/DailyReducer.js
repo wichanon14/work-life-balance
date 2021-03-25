@@ -11,7 +11,8 @@ const dailyState = {
     }],
     showDailyDropArea:false,
     currentDateSelect:'',
-    weeklyTaskOverview:{}
+    weeklyTaskOverview:{},
+    displayGroup:0
 }
 
 const DailyReducer = ( state=dailyState, action )=>{
@@ -36,6 +37,11 @@ const DailyReducer = ( state=dailyState, action )=>{
             return {
                 ...state,
                 currentDateSelect:action.payload
+            }
+        case 'SET_DISPLAY_GROUP':
+            return {
+                ...state,
+                displayGroup:action.payload
             }
         default : return state
     }

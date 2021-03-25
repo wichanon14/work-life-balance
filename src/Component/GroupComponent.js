@@ -1,7 +1,7 @@
 import { Nav,Row } from 'react-bootstrap';
 import { useSelector,useDispatch } from 'react-redux';
 import React,{ useEffect, useState } from 'react';
-import { createGroup,selectGroupGlobal,fetchGroup,fetchTask } from '../action';
+import { createGroup,selectGroupGlobal,fetchGroup,fetchTask,setGroupForDisplayDaily } from '../action';
 import { Animated } from "react-animated-css";
 import '../css/index.css';
 
@@ -35,7 +35,8 @@ function GroupComponent(){
             dispatch(selectGroupGlobal(group));
             setSelectGroup(group)
             setTimeout(() => {
-                dispatch(fetchTask(dispatch,group))
+                dispatch( fetchTask(dispatch,group) )
+                dispatch( setGroupForDisplayDaily(group.id) )
             }, 200);
         }
         

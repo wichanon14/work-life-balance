@@ -14,6 +14,7 @@ function DailyList(){
     const dailyStore = useSelector(state=>state.dailyList);
     const [dailyListOrder,setDailyListOrder] = useState(dailyList);
     const [clearTime,setClearTime] = useState(setTimeout(()=>{},1));
+    const [ displayGroup, setDisplayGroup ] = useState(0);
     const dispatch = useDispatch();
 
     useEffect(()=>{
@@ -24,6 +25,10 @@ function DailyList(){
         }
             
     },[dailyStore]);
+
+    useEffect(()=>{
+        setDisplayGroup(dailyStore.displayGroup)
+    },[dailyStore.displayGroup])
 
     useEffect(()=>{
         setShowDropArea(dailyStore.showDailyDropArea);
@@ -85,6 +90,7 @@ function DailyList(){
                                 className="dailyLists flex-column-reverse border rounded scrollBar" 
                                 {...provided.droppableProps} ref={provided.innerRef}>
                                 {
+                                (displayGroup === 0 )?
                                     dailyListOrder.map((task,i)=>
                                     (
                                         <div key={task.id} style={{'opacity':(task.isComplete)?0.5:1}}>
@@ -95,7 +101,39 @@ function DailyList(){
                                                         animationInDuration={500} isVisible={true}>
                                                         <ListGroup.Item className={'rounded'} onClick={()=>completeTask(task)} 
                                                             ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}
-                                                            onMouseDown={(e)=>handleOnDrage(e)} onMouseUp={(e)=>clearHandleOnDrag()}>
+                                                            onMouseDown={(e)=>handleOnDrage(e)} onMouseUp={(e)=>clearHandleOnDrag()} title={task.taskFullName}>
+                                                            <input type="checkbox" checked={task.isComplete} onChange={()=>{''}}
+                                                                style={{'marginRight':'1vw','transform':'scale(1.2)'}}/>
+                                                            {'TASK-'+task.id+' '+task.taskName}
+                                                            {
+                                                                (task.isComplete)?
+                                                                (
+                                                                    <Badge pill variant={'dark'} style={{marginLeft:'3%'}}>
+                                                                        {task.update_date.split(' ')[1].substr(0,5)}
+                                                                    </Badge>
+                                                                ):''
+                                                            }
+                                                            <Badge pill variant={getPriorityDisplay(task.priority).color} className={'float-right'}>
+                                                                {getPriorityDisplay(task.priority).text}
+                                                            </Badge>
+                                                        </ListGroup.Item>
+                                                    </Animated>
+                                                )
+                                            }
+                                        </Draggable>
+                                        </div>
+                                    )):
+                                    dailyListOrder.filter((task,i)=>task.group === displayGroup).map((task,i)=>
+                                    (
+                                        <div key={task.id} style={{'opacity':(task.isComplete)?0.5:1}}>
+                                        <Draggable draggableId={task.id.toString()} index={task.id}>
+                                            {
+                                                (provided)=>(
+                                                    <Animated 
+                                                        animationInDuration={500} isVisible={true}>
+                                                        <ListGroup.Item className={'rounded'} onClick={()=>completeTask(task)} 
+                                                            ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}
+                                                            onMouseDown={(e)=>handleOnDrage(e)} onMouseUp={(e)=>clearHandleOnDrag()} title={task.taskFullName}>
                                                             <input type="checkbox" checked={task.isComplete} onChange={()=>{''}}
                                                                 style={{'marginRight':'1vw','transform':'scale(1.2)'}}/>
                                                             {'TASK-'+task.id+' '+task.taskName}

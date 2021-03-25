@@ -34,11 +34,11 @@ function WorkList(){
         <div>
             <Row>
                 <Col xs={5} >
-                    <p className="h3">Tasks Queue</p>
+                    <p className="h2">Tasks Queue</p>
                 </Col>
             </Row>
             <Row>
-                <Col xs={4} >
+                <Col xs={7} >
                 </Col>
                 <Col xs={2}>
                     <Button size="sm" onClick={()=>{
@@ -51,17 +51,6 @@ function WorkList(){
                 <Col xs={3}>
                     <Button onClick={()=>dispatch(showAllStatusTask(!showAll))} size="sm">
                         Show All
-                    </Button>
-                </Col>
-                <Col xs={3}>        
-                    <Button size="sm" 
-                        onClick={()=>{
-                            dispatch(sortTaskByPriority(true))
-                            setTimeout(()=>{
-                                dispatch(sortTaskByPriority(false))
-                            },10)
-                        }}  >
-                        Sort By Priority
                     </Button>
                 </Col>
             </Row>

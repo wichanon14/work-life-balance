@@ -161,6 +161,13 @@ export const setCurrentDateSelect = (data)=>{
     }
 }
 
+export const setGroupForDisplayDaily = (data)=>{
+    return {
+        type:'SET_DISPLAY_GROUP',
+        payload:data
+    }
+}
+
 export const setSignin = (data)=>{
     return {
         type:'SET_SIGN_IN',

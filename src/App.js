@@ -1,4 +1,4 @@
-import { Row,Container,Col } from 'react-bootstrap';
+import { Row,Container,Col,Button } from 'react-bootstrap';
 import { useEffect,useState } from 'react';
 import WeeklyDayPicker from './Component/WeeklyDayPicker';
 import DailyList from './Component/DailyList';
@@ -7,6 +7,7 @@ import { DragDropContext } from 'react-beautiful-dnd';
 import { useSelector,useDispatch } from 'react-redux';
 import { triggerDailyDropArea, updateTask, fetchDailyTask, triggerTaskDropArea,fetchTask } from './action';
 import Authentication from './Component/Authentication'
+import SetEverydayListModal from './Component/SetEverydayListModal';
 
 function App() {
   
@@ -19,6 +20,7 @@ function App() {
   const userData = useSelector(state=>state.userData);
   const groupStore = useSelector(state=>state.groups);
   const [dailyListOrder,setDailyListOrder] = useState(dailyList);
+  const [displayEverydayPopup, setDisplayEverydayPopup] = useState(true);
   const dispatch = useDispatch();
 
   useEffect(()=>{
@@ -117,15 +119,21 @@ function App() {
             <Row >
               <DragDropContext onDragEnd={handleOnDragEnd} onDragStart={setTempFixedDragCardFromDailyToTaskList}>
               <Col xs={6}>
-                <h2>Daily Task</h2>
+                <Row>
+                  <Col xs={8}><h2>Daily Task</h2></Col>
+                  <Col xs={4}>
+                    <Button variant="dark" size="sm" onClick={()=>setDisplayEverydayPopup(true)}>SET Everyday List</Button>
+                  </Col>
+                </Row>
                 <WeeklyDayPicker />
                 <DailyList />
               </Col>
-              <Col xs={6}>
+              <Col xs={6} style={(dragflag)?{'position':'static','zIndex':-10}:{}}>
                 <WorkList />
               </Col>
               </DragDropContext>
             </Row>
+            <SetEverydayListModal show={displayEverydayPopup} setHide={setDisplayEverydayPopup} />
         </Container>
       ):
       (

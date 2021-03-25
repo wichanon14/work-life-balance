@@ -4,8 +4,6 @@ import { useDispatch } from 'react-redux';
 import { createTask,fetchTask,selectGroupGlobal,fetchDailyTask } from '../action';
 import { searchPriority } from '../master';
 import { useSelector } from 'react-redux';
-import DailyList from './DailyList';
-import WeeklyDayPicker from './WeeklyDayPicker';
 
 function AddWork(){
 
