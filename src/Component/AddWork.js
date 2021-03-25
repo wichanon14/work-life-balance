@@ -55,13 +55,7 @@ function AddWork(){
     
     return(
         <div>
-            <Row>
-                <Col></Col>
-            </Row>
-            <h1>Daily Task</h1>
-            <WeeklyDayPicker />
-            <DailyList />
-            <Row></Row>
+            
             <InputGroup style={{marginTop:'8%'}}>
                 <DropdownButton
                     variant="outline-secondary"
@@ -83,7 +77,6 @@ function AddWork(){
                 <Col xs={9}></Col>
                 <Button onClick={()=>submitTask()}>Create Task</Button>
             </Row>
-            
         </div>
     )
 }

@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { fetchTask,sortTaskByPriority,showAllStatusTask,fetchDailyTask } from '../action';
 import { useDispatch } from 'react-redux';
 import GroupComponent from './GroupComponent';
+import AddWork from './AddWork';
 import TaskBox from './TaskBox';
 import '../css/index.css';
 
@@ -32,8 +33,8 @@ function WorkList(){
     return(
         <div>
             <Row>
-                <Col xs={7} >
-                    <p className="h1">Tasks Queue</p>
+                <Col xs={5} >
+                    <p className="h2">Tasks Queue</p>
                 </Col>
                 <Col>
                     <Button onClick={()=>{
@@ -48,15 +49,8 @@ function WorkList(){
                         Show All
                     </Button>
                 </Col>
-            </Row>
-            <Row>
-                <GroupComponent />
-            </Row>
-                <TaskBox />
-            <Row>
-                <Col xs={8}></Col>
                 <Col>        
-                    <Button style={{'marginTop':'3%'}} 
+                    <Button style={{'marginTop':'1%'}} 
                         onClick={()=>{
                             dispatch(sortTaskByPriority(true))
                             setTimeout(()=>{
@@ -67,6 +61,11 @@ function WorkList(){
                     </Button>
                 </Col>
             </Row>
+            <AddWork />
+            <Row>
+                <GroupComponent />
+            </Row>
+            <TaskBox />
         </div>
     )
 }

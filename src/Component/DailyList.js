@@ -69,7 +69,7 @@ function DailyList(){
             <Droppable droppableId="dailyLists">
                 {
                     (provided) =>(dailyList.length === 0)?(
-                        <Row style={{'display':'flex',minHeight:'50vh',maxHeight:'50vh',opacity:0.5,zIndex:-10}} 
+                        <Row style={{'display':'flex',minHeight:'70vh',maxHeight:'70vh',opacity:0.5,zIndex:-10}} 
                             className={"dailyLists border rounded flex-column-reverse position-static"}
                             {...provided.droppableProps} ref={provided.innerRef}>
                             <Col className={'text-center'} style={{fontWeight:150,fontSize:'8vh'}}>
@@ -80,23 +80,22 @@ function DailyList(){
                         </Row>
                         ):(
                         <div className={''} >
-                            <ListGroup style={{'display':'flex',minHeight:'50vh',
-                                maxHeight:'50vh',overflowY:'auto',overflowX:'hidden'}} 
+                            <ListGroup style={{'display':'flex',minHeight:'68vh',maxHeight:'68vh',
+                                overflowY:'auto',overflowX:'hidden'}} 
                                 className="dailyLists flex-column-reverse border rounded scrollBar" 
                                 {...provided.droppableProps} ref={provided.innerRef}>
                                 {
                                     dailyListOrder.map((task,i)=>
                                     (
                                         <div key={task.id} style={{'opacity':(task.isComplete)?0.5:1}}>
-                                        <Draggable key={task.id} draggableId={task.id+""} index={i}>
+                                        <Draggable draggableId={task.id.toString()} index={task.id}>
                                             {
                                                 (provided)=>(
                                                     <Animated 
                                                         animationInDuration={500} isVisible={true}>
                                                         <ListGroup.Item className={'rounded'} onClick={()=>completeTask(task)} 
                                                             ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}
-                                                            onMouseDown={(e)=>handleOnDrage(e)} onMouseUp={(e)=>clearHandleOnDrag()}
-                                                            data-toggle="tooltip" title={task.taskFullName} style={{padding:'0.5em 1em'}}>
+                                                            onMouseDown={(e)=>handleOnDrage(e)} onMouseUp={(e)=>clearHandleOnDrag()}>
                                                             <input type="checkbox" checked={task.isComplete} onChange={()=>{''}}
                                                                 style={{'marginRight':'1vw','transform':'scale(1.2)'}}/>
                                                             {'TASK-'+task.id+' '+task.taskName}

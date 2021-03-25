@@ -133,7 +133,7 @@ const WeeklyDayPicker = ()=>{
 
 
     return (
-        <div style={{minHeight:'13vh',maxHeight:'13vh'}} className={'border'}>
+        <div className={'border'}>
             <Row className={'text-center'} style={{margin: 0}}>
             {
                 weekDateList.map((val,index)=>

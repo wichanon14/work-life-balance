@@ -1,6 +1,7 @@
 import { Row,Container,Col } from 'react-bootstrap';
 import { useEffect,useState } from 'react';
-import AddWork from './Component/AddWork';
+import WeeklyDayPicker from './Component/WeeklyDayPicker';
+import DailyList from './Component/DailyList';
 import WorkList from './Component/WorkList';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { useSelector,useDispatch } from 'react-redux';
@@ -35,24 +36,44 @@ function App() {
   },[dailyStore]);
 
   function handleOnDragEnd(result) {
+
+    if (!result.destination) {
+        console.log("destination empty");
+        return
+    }
+
     if (result.destination){
       
       if (result.destination.droppableId === "dailyLists" && result.source.droppableId === "taskLists"){
-        const data = tasks.find((val,index)=>index === result.source.index)
+        const data = tasks.find((val,index)=>val.id === result.source.index)
         let taskDate = dailyStore.currentDateSelect
         console.log(' TaskDate >> ',taskDate);
         data.taskDate = taskDate;
         dispatch(updateTask(data));
+
+        // rerender 
+        const items = Array.from(dailyListOrder);
+        const [reorderedItem] = items.splice(result.source.index, 1);
+        items.splice(result.destination.index, 0, reorderedItem);
+        setDailyListOrder(items);
+        
         setTimeout(() => {
           dispatch(fetchTask(dispatch,{id:data.group}))
           dispatch(fetchDailyTask(dispatch,dailyStore.currentDateSelect))
         }, 200);
       }else if (result.source.droppableId === "dailyLists" && result.destination.droppableId === "taskLists"){
-        const data = dailyList.find((val,index)=>index === result.source.index)
+        const data = dailyList.find((val,index)=>val.id === result.source.index)
         data.taskDate = null;
         if( groupStore.groupSelect )
           data.group = groupStore.groupSelect.id;
         dispatch(updateTask(data));
+        
+        // rerender 
+        const items = Array.from(taskListOrder);
+        const [reorderedItem] = items.splice(result.source.index, 1);
+        items.splice(result.destination.index, 0, reorderedItem);
+        setTaskListOrder(items);
+
         setTimeout(() => {
           dispatch(fetchTask(dispatch,{id:data.group}))
           dispatch(fetchDailyTask(dispatch,dailyStore.currentDateSelect))
@@ -82,6 +103,7 @@ function App() {
   }
 
   const setTempFixedDragCardFromDailyToTaskList = (result)=>{
+    console.log('result >> ',result);
     if(result.source.droppableId === "dailyLists"){
       setDragFlag(true)
     }
@@ -95,9 +117,11 @@ function App() {
             <Row >
               <DragDropContext onDragEnd={handleOnDragEnd} onDragStart={setTempFixedDragCardFromDailyToTaskList}>
               <Col xs={6}>
-                <AddWork />
+                <h2>Daily Task</h2>
+                <WeeklyDayPicker />
+                <DailyList />
               </Col>
-              <Col xs={6} style={(dragflag)?{'position':'static','zIndex':-10}:{}}>
+              <Col xs={6}>
                 <WorkList />
               </Col>
               </DragDropContext>

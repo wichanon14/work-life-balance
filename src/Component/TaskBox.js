@@ -96,14 +96,14 @@ function TaskBox(){
                                         && task.group === groupSelect.id)?
                                     (
                                         <div key={task.id} style={{'opacity':(task.isComplete)?0.5:1}}>
-                                        <Draggable  draggableId={task.id+""} index={i}>
+                                        <Draggable  draggableId={task.id.toString()} index={task.id}>
                                             {
                                                 (provided)=>(
                                                     <Animated animationIn={(i === 1)?"bounceInLeft":''} 
                                                         animationInDuration={500} isVisible={true}>
                                                         <ListGroup.Item className={'rounded'} onClick={()=>completeTask(task)} 
                                                             ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}
-                                                            onMouseDown={(e)=>{handleOnDrag(e)}} style={{padding:'0.5em 1em'}}
+                                                            onMouseDown={(e)=>{handleOnDrag(e)}} 
                                                             onMouseUp={()=>{dispatch(triggerDailyDropArea(false))}}
                                                             data-toggle="tooltip" title={task.taskFullName}>
                                                             <input type="checkbox" checked={task.isComplete} onChange={()=>{''}}
