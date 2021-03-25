@@ -56,7 +56,7 @@ function AddWork(){
     return(
         <div>
             
-            <InputGroup style={{marginTop:'8%'}}>
+            <InputGroup className={'mb-3 mt-3'}>
                 <DropdownButton
                     variant="outline-secondary"
                     title={( groupSelect && groupSelect.groupName )?groupSelect.groupName:'Group'}
@@ -73,9 +73,11 @@ function AddWork(){
                     onChange={(e)=>setTask(e.target.value)} 
                     onKeyPress={(e)=>(e.key==='Enter')?submitTask():''} ref={textForm}/>
             </InputGroup>
-            <Row style={{marginBottom:'5%'}}>
+            <Row style={{marginBottom:'3%'}}>
                 <Col xs={9}></Col>
-                <Button onClick={()=>submitTask()}>Create Task</Button>
+                <Col>
+                    <Button onClick={()=>submitTask()}>Create Task</Button>
+                </Col>
             </Row>
         </div>
     )

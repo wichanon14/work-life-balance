@@ -34,23 +34,27 @@ function WorkList(){
         <div>
             <Row>
                 <Col xs={5} >
-                    <p className="h2">Tasks Queue</p>
+                    <p className="h3">Tasks Queue</p>
                 </Col>
-                <Col>
-                    <Button onClick={()=>{
+            </Row>
+            <Row>
+                <Col xs={4} >
+                </Col>
+                <Col xs={2}>
+                    <Button size="sm" onClick={()=>{
                         dispatch(fetchTask(dispatch,groupSelect))
                         dispatch(fetchDailyTask(dispatch,dailyStore.currentDateSelect))
                     }} >
                         Reload
                     </Button>
                 </Col>
-                <Col>
-                    <Button onClick={()=>dispatch(showAllStatusTask(!showAll))}>
+                <Col xs={3}>
+                    <Button onClick={()=>dispatch(showAllStatusTask(!showAll))} size="sm">
                         Show All
                     </Button>
                 </Col>
-                <Col>        
-                    <Button style={{'marginTop':'1%'}} 
+                <Col xs={3}>        
+                    <Button size="sm" 
                         onClick={()=>{
                             dispatch(sortTaskByPriority(true))
                             setTimeout(()=>{
