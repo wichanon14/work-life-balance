@@ -8,6 +8,7 @@ import { useSelector,useDispatch } from 'react-redux';
 import { triggerDailyDropArea, updateTask, fetchDailyTask, triggerTaskDropArea,fetchTask } from './action';
 import Authentication from './Component/Authentication'
 import SetEverydayListModal from './Component/SetEverydayListModal';
+import axios from 'axios';
 
 function App() {
   
@@ -20,7 +21,7 @@ function App() {
   const userData = useSelector(state=>state.userData);
   const groupStore = useSelector(state=>state.groups);
   const [dailyListOrder,setDailyListOrder] = useState(dailyList);
-  const [displayEverydayPopup, setDisplayEverydayPopup] = useState(true);
+  const [displayEverydayPopup, setDisplayEverydayPopup] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(()=>{
@@ -111,6 +112,35 @@ function App() {
     }
   }
 
+  const generateEverydayList = ()=>{
+
+    // set data
+    var body = JSON.stringify(
+    {
+        "action":"generateEverydayList",
+        "payload":{
+            "taskDate": dailyStore.currentDateSelect
+        }
+    });
+
+    // set config
+    var config = {
+      method: 'post',
+      url: 'http://localhost/work-life-balance-api/',
+      headers: { 
+          'Content-Type': 'application/json'
+      },
+      data : body
+    };
+
+    axios(config).then( (response)=>{
+        console.log(response);
+    }).catch(function (error) {
+        console.error(error);
+    });
+
+  }
+
   return (
       (userData.signinStatus)?
       (
@@ -120,9 +150,12 @@ function App() {
               <DragDropContext onDragEnd={handleOnDragEnd} onDragStart={setTempFixedDragCardFromDailyToTaskList}>
               <Col xs={6}>
                 <Row>
-                  <Col xs={8}><h2>Daily Task</h2></Col>
+                  <Col xs={4}><h2>Daily Task</h2></Col>
                   <Col xs={4}>
                     <Button variant="dark" size="sm" onClick={()=>setDisplayEverydayPopup(true)}>SET Everyday List</Button>
+                  </Col>
+                  <Col xs={4}>
+                    <Button variant="dark" size="sm" onClick={()=>generateEverydayList()}>Generate Everyday List</Button>
                   </Col>
                 </Row>
                 <WeeklyDayPicker />

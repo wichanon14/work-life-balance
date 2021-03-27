@@ -12,7 +12,8 @@ const dailyState = {
     showDailyDropArea:false,
     currentDateSelect:'',
     weeklyTaskOverview:{},
-    displayGroup:0
+    displayGroup:0,
+    everydayList:[]
 }
 
 const DailyReducer = ( state=dailyState, action )=>{
